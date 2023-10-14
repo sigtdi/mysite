@@ -8,7 +8,9 @@
         </div>
 
         <div>
-            {{ posts }}
+            {% for post in posts %}
+                {{ post }}
+            {% endfor %}
         </div>
     </body>
 </html>
