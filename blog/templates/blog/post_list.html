@@ -1,16 +1,17 @@
 <html>
     <head>
-        <title>Django Girls blog</title>
+        <title>Типо страница с конкурсами</title>
     </head>
     <body>
         <div>
-            <h1><a href="/">Django Girls Blog</a></h1>
+            <h1><a href="/">Тут название</a></h1>
         </div>
 
         {% for post in posts %}
             <div>
                 <p>published: {{ post.published_date }}</p>
                 <h1><a href="">{{ post.title }}</a></h1>
+                <p>{{ post.description|linebreaksbr }}</p>
             </div>
         {% endfor %}
     </body>
