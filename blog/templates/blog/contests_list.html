@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Типо страница с конкурсами</title>
+    </head>
+    <body>
+        <div>
+            <h1><a href="/">Тут название</a></h1>
+        </div>
+
+        {% for contest in contests %}
+            <div>
+                <p>published: {{ contest.published_date }}</p>
+                <h1><a href="">{{ contest.title }}</a></h1>
+                <p>{{ contest.description|linebreaksbr }}</p>
+            </div>
+        {% endfor %}
+    </body>
+</html>
