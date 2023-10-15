@@ -10,6 +10,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     objects = models.Manager()
+    contest = ''
     likes = 0
 
     def publish(self):
@@ -29,7 +30,7 @@ class Contest(models.Model):
     description = models.TextField()
     published_date = models.DateTimeField(blank=True, null=True)
     objects = models.Manager()
-    posts = {}
+    posts = []
     likes = 0
 
     def publish(self):
@@ -38,6 +39,9 @@ class Contest(models.Model):
 
     def more_likes(self):
         self.likes += 1
+
+    def add_post(self):
+        self.posts.append(Post())
 
     def __str__(self):
         return self.title

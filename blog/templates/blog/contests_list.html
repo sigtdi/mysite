@@ -1,18 +1,13 @@
-<html>
-    <head>
-        <title>Типо страница с конкурсами</title>
-    </head>
-    <body>
-        <div>
-            <h1><a href="/">Тут название</a></h1>
-        </div>
+{% extends 'blog/base.html' %}
 
-        {% for contest in contests %}
-            <div>
-                <p>published: {{ contest.published_date }}</p>
-                <h1><a href="">{{ contest.title }}</a></h1>
-                <p>{{ contest.description|linebreaksbr }}</p>
+{% block content %}
+    {% for contest in contests %}
+        <div class="contest">
+            <div class="date">
+                {{ contest.published_date }}
             </div>
-        {% endfor %}
-    </body>
-</html>
+            <h1><a href="">{{ contest.title }}</a></h1>
+            <p>{{ contest.text|linebreaksbr }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
