@@ -24,8 +24,9 @@ def home_page(request):
     return render(request, 'blog/home_page.html')
 
 
-def profile(request):
-    return render(request, "blog/profile.html")
+def profile(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, "blog/profile.html", {'post': post})
 
 
 class SignUp(CreateView):
