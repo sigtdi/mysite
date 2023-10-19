@@ -1,32 +1,17 @@
+{% extends 'blog/base.html' %}
 {% load static %}
-<html>
-    <head>
-        <title>Пытаемся в веб</title>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-    </head>
-    <body>
-    <div class="page-header">
-        <h1><a href="/">Профиль</a></h1>
+{% block content %}
+    <div class="header-bar">
+        <h1>Profile</h1>
+
+
     </div>
-    <div class="content container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="post">
-                    {% for post in posts %}
-                        <div class="post">
-                            <div class="date">
-                                {{ post.published_date }}
-                            </div>
-                            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                            <p>{{ post.description|linebreaksbr }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
+
+    <div class="card-body">
+        <p><strong>Username:</strong> {{ user }}</p><br><br>
+        <p><strong>Bio:</strong> {{ profile.user }}</p><br>
+        {% if user.id == profile.user.id %}
+            <a href="{% url 'edit_user_profile' profile.id %}"><button class="button">Edit</button></a>
+        {% endif %}
     </div>
-    </body>
-</html>
+{% endblock content %}
