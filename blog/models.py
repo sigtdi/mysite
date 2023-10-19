@@ -49,3 +49,5 @@ class Contest(models.Model):
 
 class Comments(models.Model):
     pass
+
+
