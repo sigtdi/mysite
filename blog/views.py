@@ -24,9 +24,9 @@ def home_page(request):
     return render(request, 'blog/home_page.html')
 
 
-def profile(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    return render(request, "blog/profile.html", {'post': post})
+def profile(request):
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, "blog/profile.html", {'posts': posts})
 
 
 class SignUp(CreateView):
