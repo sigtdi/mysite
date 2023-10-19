@@ -24,8 +24,8 @@ def home_page(request):
     return render(request, 'blog/home_page.html')
 
 
-def home(request):
-    return render(request, "users/home_page.html")
+def profile(request):
+    return render(request, "blog/profile.html")
 
 
 class SignUp(CreateView):
