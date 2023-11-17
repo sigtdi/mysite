@@ -25,7 +25,12 @@ def home_page(request):
 
 
 def profile(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts_temp = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts = []
+    for post in posts_temp:
+        if post.author == request.user:
+            posts.append(post)
+
     return render(request, "blog/profile.html", {'posts': posts})
 
 
