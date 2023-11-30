@@ -7,6 +7,14 @@
         <h2>Профиль пользователя {{ user_profile }}</h2>
         <hr>
         <div class="row">
+            <div class="col-xl-4 col-sm-12 border border-start border-0">
+                <h3 class="mb-3">Информация:</h3>
+                <p>
+                    <b>Имя пользователя:</b> {{ user }}
+                {% if user ==  user %}
+                    <a class="btn btn-primary my-btn me-1" href="#">Добавить пост</a>
+                {% endif %}
+            </div>
             <div class="col-xl-8 сol-sm-12">
                 <h3 class="mb-3">Последние посты:</h3>
                 {% for post in user_posts %}
@@ -17,8 +25,6 @@
                         <div class="col-lg-9 col-sm-12">
                             <h4 class="head2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
                             <div class="mb-3">
-                                <p class="lead"><a
-                                        href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
                                     | {{ post.publish | date:"d F Y" }} |
                             </div>
                             {{ post.short_body | safe }}
@@ -26,17 +32,6 @@
                     </div>
                     <hr class="m-1">
                 {% endfor %}
-                <div class="text-center mt-3">
-                    <a class="btn btn-primary my-btn mb-3" href="#">Все посты {{ user_profile }}</a>
-                </div>
-            </div>
-            <div class="col-xl-4 col-sm-12 border border-start border-0">
-            <h3 class="mb-3">Информация:</h3>
-                <p>
-                    <b>Имя пользователя:</b> {{ user }}
-                {% if user ==  user %}
-                    <a class="btn btn-primary my-btn me-1" href="#">Настройки профиля</a>
-                {% endif %}
             </div>
         </div>
     </div>
