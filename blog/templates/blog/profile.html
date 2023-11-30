@@ -11,23 +11,22 @@
                 <h3 class="mb-3">Информация:</h3>
                 <p>
                     <b>Имя пользователя:</b> {{ user }}
-                {% if user ==  user %}
-                    <a class="btn btn-primary my-btn me-1" href="#">Добавить пост</a>
+                {% if user == user %}
+                    <a class="btn btn-primary my-btn me-1" href="http://127.0.0.1:8000/post/new">Добавить пост</a>
                 {% endif %}
             </div>
             <div class="col-xl-8 сol-sm-12">
                 <h3 class="mb-3">Последние посты:</h3>
-                {% for post in user_posts %}
+                {% for post in context %}
                     <div class="row">
                         <div class="col-lg-3 col-sm-12 d-flex align-items-center">
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
+                            <img src="{{ post.image.url }}" width="300" height="200" alt="{{ post.title }}" class="img-fluid">
                         </div>
                         <div class="col-lg-9 col-sm-12">
-                            <h4 class="head2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                            <h4 class="head2"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
                             <div class="mb-3">
                                     | {{ post.publish | date:"d F Y" }} |
                             </div>
-                            {{ post.short_body | safe }}
                         </div>
                     </div>
                     <hr class="m-1">

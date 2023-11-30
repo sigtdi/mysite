@@ -8,6 +8,7 @@
             </div>
         {% endif %}
         <h1>{{ post.title }}</h1>
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
         <p>{{ post.description|linebreaksbr }}</p>
     </div>
 {% endblock %}
