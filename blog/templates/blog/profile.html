@@ -1,17 +1,43 @@
 {% extends 'blog/base.html' %}
 {% load static %}
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
-    <div class="header-bar">
-        <h1>Profile</h1>
-
-
+    <div class="container mt-3">
+        <h2>Профиль пользователя {{ user_profile }}</h2>
+        <hr>
+        <div class="row">
+            <div class="col-xl-8 сol-sm-12">
+                <h3 class="mb-3">Последние посты:</h3>
+                {% for post in user_posts %}
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-12 d-flex align-items-center">
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
+                        </div>
+                        <div class="col-lg-9 col-sm-12">
+                            <h4 class="head2"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                            <div class="mb-3">
+                                <p class="lead"><a
+                                        href="{{ post.category.get_absolute_url }}">{{ post.category }}</a>
+                                    | {{ post.publish | date:"d F Y" }} |
+                            </div>
+                            {{ post.short_body | safe }}
+                        </div>
+                    </div>
+                    <hr class="m-1">
+                {% endfor %}
+                <div class="text-center mt-3">
+                    <a class="btn btn-primary my-btn mb-3" href="#">Все посты {{ user_profile }}</a>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-12 border border-start border-0">
+            <h3 class="mb-3">Информация:</h3>
+                <p>
+                    <b>Имя пользователя:</b> {{ user }}
+                {% if user ==  user %}
+                    <a class="btn btn-primary my-btn me-1" href="#">Настройки профиля</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-
-    <div class="card-body">
-        <p><strong>Username:</strong> {{ user }}</p><br><br>
-        <p><strong>Bio:</strong> {{ profile.user }}</p><br>
-        {% if user.id == profile.user.id %}
-            <a href="{% url 'edit_user_profile' profile.id %}"><button class="button">Edit</button></a>
-        {% endif %}
-    </div>
-{% endblock content %}
+{% endblock %}

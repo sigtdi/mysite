@@ -1,61 +1,27 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.core.validators import FileExtensionValidator
-from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
-from django.urls import reverse
-
-User = get_user_model()
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView
+from django.contrib.auth.models import User
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    slug = models.SlugField(verbose_name='URL', max_length=255, blank=True, unique=True)
-    avatar = models.ImageField(
-        verbose_name='Аватар',
-        upload_to='images/avatars/%Y/%m/%d/',
-        blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=('png', 'jpg', 'jpeg'))])
-    bio = models.TextField(max_length=500, blank=True, verbose_name='Информация о себе')
+class Profile(DetailView):
+    template_name = 'blog/profile.html'
+    queryset = User.objects.all()
+    def get_object(self):
+        id_ = self.kwargs.get("username")
+        user = get_object_or_404(User, username=id_)
+        return user
 
-    class Meta:
-        db_table = 'app_profiles'
-        ordering = ('user',)
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профили'
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.user.username
-
-    def get_absolute_url(self):
-        return reverse('profile_detail', kwargs={'slug': self.slug})
-
-    @property
-    def get_avatar(self):
-        if self.avatar:
-            return self.avatar.url
-        return f'https://ui-avatars.com/api/?size=150&background=random&name={self.slug}'
-
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    def get_context_data(self, *args, **kwargs):
+        context = super(Profile,self).get_context_data(*args, **kwargs)
+        user = self.get_object()
+        context.update({'posts': user.posts.all().filter(created_date__lte=timezone.now()).order_by(' -created_date')})
 
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=200)
     description = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)

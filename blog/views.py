@@ -32,6 +32,8 @@ def profile(request):
         if post.author == request.user:
             posts.append(post)
 
+
+
     return render(request, "blog/profile.html", {'posts': posts})
 
 
